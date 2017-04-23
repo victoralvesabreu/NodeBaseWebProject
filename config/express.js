@@ -1,13 +1,14 @@
 var express = require('express');
 var load = require('express-load');
 
-module.exports = function(){
+module.exports = function () {
   var app = express();
 
   app.set("port", 3000);
 
-  app.use(express.static("./public"));
-  app.set("view engine", "pug");
+  app.use(express.static("./views/public"));
+  app.engine("html", require("ejs").renderFile);
+  app.set("view engine", "html");
   app.set("views", "./views");
 
   load("models")
@@ -15,5 +16,5 @@ module.exports = function(){
     .then("routes")
     .into(app);
 
-    return app;
+  return app;
 };
